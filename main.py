@@ -132,17 +132,20 @@ def apply_pastel_style():
             color: #7B68EE; /* 미디엄 슬레이트 블루 */
             margin-bottom: 15px;
         }
-        .theme-title {
-            font-size: 28px; /* 이모지 때문에 크게 키움 */
+        .theme-emoji { /* 초대형 이모티콘을 위한 새로운 클래스 */
+            font-size: 100px; 
+            margin: 20px 0;
+            line-height: 1; /* 이모티콘 주변 공백 최소화 */
+        }
+        .theme-title { /* 테마 제목 텍스트 (이모티콘보다 작게 유지) */
+            font-size: 28px; 
             color: #8A2BE2;
             font-weight: 700;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         .theme-description {
-            font-size: 18px;
-            color: #555555;
-            margin-top: 10px;
-            line-height: 1.6;
+            /* 사용자 요청에 따라 설명을 표시하지 않음 */
+            display: none; 
         }
     </style>
     """, unsafe_allow_html=True)
@@ -235,23 +238,23 @@ elif st.session_state.mbti_result:
     # RESULTS에서 이모지까지 함께 가져옴
     theme_title, theme_desc, theme_emoji = RESULTS.get(mbti_type, ("테마 미정", "결과를 찾을 수 없습니다.", "❓"))
 
-    st.markdown("<h2>✨ 테스트 결과가 나왔습니다! ✨</h2>", unsafe_allow_html=True)
+    # '테스트 결과가 나왔습니다' 제목과 설명 텍스트를 제거하고 시각적 요소만 남김
     
     st.markdown(f"""
         <div class="result-box">
+            {/* MBTI 유형 */}
             <p class="mbti-type">{mbti_type}</p>
-            <p style='font-size: 22px; color: #4B0082; font-weight: 600;'>
-                당신의 MBTI 유형은 <span style='color: #FF69B4;'>{mbti_type}</span> 입니다!
-            </p>
             
             <hr style='border: 1px dashed #E0FFFF; margin: 20px 0;'>
+
+            {/* 초대형 이모티콘 */}
+            <p class="theme-emoji">{theme_emoji}</p>
             
-            <p class="theme-title">{theme_emoji} 어울리는 감성 이미지 테마: 『{theme_title}』 {theme_emoji}</p>
-            <p class="theme-description">{theme_desc}</p>
+            {/* 테마 제목 (이모티콘에 대한 텍스트 레이블) */}
+            <p class="theme-title">『{theme_title}』</p>
             
-            <p style='margin-top: 30px; font-size: 14px; color: #999999;'>
-                *본 테스트는 심플한 문항으로 구성된 간이 검사이며, 실제 MBTI 결과와 다를 수 있습니다.
-            </p>
+            {/* 이전의 상세 설명과 면책 조항은 모두 제거됨 */}
+            
         </div>
     """, unsafe_allow_html=True)
 
